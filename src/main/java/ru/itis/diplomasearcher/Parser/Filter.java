@@ -1,14 +1,19 @@
 package Parser;
 
-public class Filter {
-    private String title;
-    private String advisor;
+import lombok.Data;
 
-    public String getTitle() {
-        return this.title;
-    }
+@Data
+public class Filter extends Operation{
 
-    public String getAdvisor() {
-        return this.advisor;
+    private String name;
+    private String value;
+    private String relation;
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder("");
+        sb.append(" { filter: ");
+        sb.append(name).append(", ").append(value).append(", ").append(relation);
+        sb.append(" } ");
+        return sb.toString();
     }
 }
