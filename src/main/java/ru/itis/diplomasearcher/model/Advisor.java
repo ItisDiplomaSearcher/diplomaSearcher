@@ -1,13 +1,17 @@
 package ru.itis.diplomasearcher.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "advisor")
 @Entity
 public class Advisor {
@@ -24,6 +28,11 @@ public class Advisor {
 
 	private String patronymic;
 
-	@ManyToMany(mappedBy = "advisors")
+	@EqualsAndHashCode.Exclude
+	@OneToMany(mappedBy = "author",
+			fetch = FetchType.LAZY,
+			cascade = CascadeType.ALL
+	)
+	@JsonManagedReference(value = "advisorReference")
 	Set<Diploma> diplomas;
 }

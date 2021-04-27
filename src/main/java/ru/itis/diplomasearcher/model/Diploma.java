@@ -1,12 +1,10 @@
 package ru.itis.diplomasearcher.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -31,20 +29,17 @@ public class Diploma {
 	@Column(nullable = false)
 	private String text;
 
-	@ManyToMany
-	@JoinTable(
-			name = "authors",
-			joinColumns = @JoinColumn(name="diploma_id"),
-			inverseJoinColumns = @JoinColumn(name="author_id")
-	)
-	Set<Author> authors;
+	@EqualsAndHashCode.Exclude
+	@ManyToOne(fetch = FetchType.LAZY, optional = false,cascade=CascadeType.ALL)
+	@JoinColumn(name = "author_id", nullable = false)
+	@JsonBackReference(value = "authorReference")
+	Author author;
 
-	@ManyToMany
-	@JoinTable(
-			name = "advisors",
-			joinColumns = @JoinColumn(name="diploma_id"),
-			inverseJoinColumns = @JoinColumn(name="advisor_id")
-	)
-	Set<Author> advisors;
+	@EqualsAndHashCode.Exclude
+	@ManyToOne(fetch = FetchType.LAZY, optional = false, cascade=CascadeType.ALL)
+	@JoinColumn(name = "advisor_id", nullable = false)
+	@JsonBackReference(value = "advisorReference")
+	Advisor advisor;
+
 }
 

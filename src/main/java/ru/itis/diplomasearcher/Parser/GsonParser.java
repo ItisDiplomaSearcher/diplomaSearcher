@@ -1,4 +1,4 @@
-package Parser;
+package ru.itis.diplomasearcher.Parser;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

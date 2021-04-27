@@ -1,4 +1,4 @@
-package Parser;
+package ru.itis.diplomasearcher.Parser;
 
 import lombok.Data;
 import java.util.*;
