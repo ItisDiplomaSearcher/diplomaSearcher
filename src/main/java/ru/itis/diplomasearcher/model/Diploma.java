@@ -1,8 +1,7 @@
 package ru.itis.diplomasearcher.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 
@@ -12,6 +11,7 @@ import javax.persistence.*;
 @Builder
 @Table(name = "diploma")
 @Entity
+@Document(indexName = "diplomas")
 public class Diploma {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,17 +29,20 @@ public class Diploma {
 	@Column(nullable = false)
 	private String text;
 
-	@EqualsAndHashCode.Exclude
-	@ManyToOne(fetch = FetchType.LAZY, optional = false,cascade=CascadeType.ALL)
-	@JoinColumn(name = "author_id", nullable = false)
-	@JsonBackReference(value = "authorReference")
-	Author author;
+	@Column
+	private String author;
 
-	@EqualsAndHashCode.Exclude
-	@ManyToOne(fetch = FetchType.LAZY, optional = false, cascade=CascadeType.ALL)
-	@JoinColumn(name = "advisor_id", nullable = false)
-	@JsonBackReference(value = "advisorReference")
-	Advisor advisor;
+	@Column
+	private String advisor;
 
+	@Override
+	public String toString() {
+		return "Diploma{" +
+				"id=" + id +
+				", title='" + title + '\'' +
+				", author='" + author + '\'' +
+				", advisor='" + advisor + '\'' +
+				'}';
+	}
 }
 

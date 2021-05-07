@@ -2,9 +2,7 @@ package ru.itis.diplomasearcher.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.itis.diplomasearcher.model.Author;
 import ru.itis.diplomasearcher.model.Diploma;
-import ru.itis.diplomasearcher.repository.AuthorsRepository;
 import ru.itis.diplomasearcher.repository.DiplomaRepository;
 import ru.itis.diplomasearcher.service.DiplomasService;
 
@@ -16,12 +14,14 @@ import java.util.Optional;
 public class DiplomaServiceImpl implements DiplomasService {
 
 	private final DiplomaRepository diplomaRepository;
-	private final AuthorsRepository authorsRepository;
+	// private final DiplomaElasticSearchRepository diplomaElasticSearchRepository;
+
 
 	@Autowired
-	public DiplomaServiceImpl(DiplomaRepository diplomaRepository, AuthorsRepository authorsRepository){
+	public DiplomaServiceImpl(DiplomaRepository diplomaRepository
+			/*, DiplomaElasticSearchRepository diplomaElasticSearchRepository*/){
 		this.diplomaRepository = diplomaRepository;
-		this.authorsRepository = authorsRepository;
+		// this.diplomaElasticSearchRepository = diplomaElasticSearchRepository;
 	}
 
 
@@ -39,18 +39,6 @@ public class DiplomaServiceImpl implements DiplomasService {
 
 	@Override
 	public Diploma saveDiploma(Diploma diploma) {
-		Author author = diploma.getAuthor();
-
-		Optional<Author> existingAuthor = authorsRepository.getByFullName(
-				author.getFirstName(),
-				author.getLastName(),
-				author.getPatronymic());
-
-		System.out.println(author);
-		System.out.println(existingAuthor);
-
-		existingAuthor.ifPresent(diploma::setAuthor);
-
 		return diplomaRepository.save(diploma);
 	}
 
