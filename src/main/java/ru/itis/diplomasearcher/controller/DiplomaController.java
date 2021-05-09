@@ -23,7 +23,6 @@ public class DiplomaController {
 		this.diplomaElasticsearchService = diplomaElasticsearchService;
 	}
 
-
 	@GetMapping("/diplomas")
 	public List<Diploma> findAll(){
 		return diplomasService.findAll();
@@ -40,18 +39,19 @@ public class DiplomaController {
 		}
 	}
 
-	@GetMapping("/diplomas/{id}")
-	public Diploma findById(@PathVariable Long id){
-		return diplomasService.findById(id).orElse(new Diploma());
-	}
-
-	@GetMapping("/diplomas/query/{query}")
-	public List<Diploma> findByQuery(@PathVariable String query){
+	@GetMapping("/diplomas/searchByDiplomaText/{query}")
+	public List<Diploma> searchByDiplomaText(@PathVariable String query){
 		try {
-			return diplomaElasticsearchService.search(query);
+			return diplomaElasticsearchService.searchByDiplomaText(query);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	@GetMapping("/diploma/search/")
+	public List<Diploma> search(/*@RequestBody Operation operation*/){
+		// TODO
+		return null;
 	}
 }

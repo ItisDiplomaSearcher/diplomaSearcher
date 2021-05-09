@@ -11,11 +11,11 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
-import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.itis.diplomasearcher.model.Diploma;
+import ru.itis.diplomasearcher.model.EducationLevel;
 import ru.itis.diplomasearcher.service.DiplomaElasticsearchService;
 
 import java.io.IOException;
@@ -47,35 +47,36 @@ public class DiplomaElasticsearchServiceImpl implements DiplomaElasticsearchServ
 	}
 
 	@Override
-	public List<Diploma> search(String searchString) throws IOException {
-		SearchRequest searchRequest = new SearchRequest(INDEX_NAME);
-		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		searchSourceBuilder.query(QueryBuilders.matchQuery("text", searchString));
-
-		HighlightBuilder highlightBuilder = new HighlightBuilder()
-				.field(new HighlightBuilder.Field("title"))
-				.field(new HighlightBuilder.Field("text"));
-		searchSourceBuilder.highlighter(highlightBuilder);
-
-		searchRequest.source(searchSourceBuilder);
+	public List<Diploma> search(SearchRequest searchRequest) throws IOException {
 		SearchResponse searchResponse = esClient.search(searchRequest, RequestOptions.DEFAULT);
+
 		List<Diploma> diplomas = new ArrayList<>();
 		for (SearchHit hit : searchResponse.getHits().getHits()) {
 			Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+			Long id = new Long((Integer) sourceAsMap.get("id"));
 			String title = (String) sourceAsMap.get("title");
+			EducationLevel level = Enum.valueOf(EducationLevel.class, (String) sourceAsMap.get("level"));
+			Integer graduationYear = (Integer) sourceAsMap.get("graduationYear");
 			String text = (String) sourceAsMap.get("text");
+			String author = (String) sourceAsMap.get("author");
+			String advisor = (String) sourceAsMap.get("advisor");
 
-			HighlightField highlightFieldText = hit.getHighlightFields().get("text");
-			if (highlightFieldText != null && highlightFieldText.fragments().length > 0) {
-				text = highlightFieldText.fragments()[0].toString();
-			}
 
-			Diploma diploma = new Diploma();
-			diploma.setTitle(title);
-			diploma.setText(text);
+			Diploma diploma = new Diploma(id, title, graduationYear, level, text, author, advisor);
 			diplomas.add(diploma);
 		}
 
 		return diplomas;
+	}
+
+
+	@Override
+	public List<Diploma> searchByDiplomaText(String searchString) throws IOException {
+		SearchRequest searchRequest = new SearchRequest(INDEX_NAME);
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		searchSourceBuilder.query(QueryBuilders.matchQuery("text", searchString));
+
+		searchRequest.source(searchSourceBuilder);
+		return search(searchRequest);
 	}
 }
