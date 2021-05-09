@@ -35,6 +35,9 @@ public class Diploma {
 	@Column
 	private String advisor;
 
+	@Column
+	private String filename;
+
 	@Override
 	public String toString() {
 		return "Diploma{" +
