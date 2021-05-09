@@ -1,4 +1,4 @@
-package Parser;
+package ru.itis.diplomasearcher.parser;
 
 import com.google.gson.annotations.SerializedName;
 

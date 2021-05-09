@@ -1,4 +1,4 @@
-package Parser;
+package ru.itis.diplomasearcher.parser;
 
 public class Filter extends FilterSet {
     private Name name;

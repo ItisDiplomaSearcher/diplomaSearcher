@@ -1,4 +1,4 @@
-package Parser;
+package ru.itis.diplomasearcher.parser;
 
 public enum Name {
     TITLE,
