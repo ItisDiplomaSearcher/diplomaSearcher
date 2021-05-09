@@ -12,7 +12,7 @@ public class GsonParser {
         this.json = json;
     }
 
-    public static FilterSet getParent() {
+    public static FilterSet getFilterSet() {
         Gson gs = new GsonBuilder()
                 .registerTypeAdapter(FilterSet.class, new Deserializer())
                 .create();

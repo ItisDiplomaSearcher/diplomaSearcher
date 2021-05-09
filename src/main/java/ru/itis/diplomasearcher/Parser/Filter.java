@@ -5,10 +5,19 @@ public class Filter extends FilterSet {
     private String value;
     private Relation relation;
 
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("");
-        sb.append(" { " + name + ", " + value + ", " + relation + " }");
+        sb.append("\"bool\": {\"must\": {");
+        sb.append(relation.toQuery());
+        sb.append(" \"" + name + "\": \"" + value + "\"");
+        sb.append(" } } }");
 
         return sb.toString();
+    }
+
+    @Override
+    String getQuery() {
+        return null;
     }
 }

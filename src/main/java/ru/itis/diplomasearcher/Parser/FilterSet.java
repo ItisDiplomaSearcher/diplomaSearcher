@@ -1,4 +1,5 @@
 package Parser;
 
-public class FilterSet {
+public abstract class FilterSet {
+    abstract String getQuery();
 }

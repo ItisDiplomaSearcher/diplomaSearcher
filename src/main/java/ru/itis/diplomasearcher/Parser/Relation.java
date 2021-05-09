@@ -4,13 +4,28 @@ import com.google.gson.annotations.SerializedName;
 
 public enum Relation {
     @SerializedName("=")
-    EQUALITY("="),
+    EQUALITY("=") {
+        @Override
+        public String toQuery() {
+            return "\"term\": {";
+        }
+    },
 
     @SerializedName("~")
-    CONTAINS("~"),
+    CONTAINS("~") {
+        @Override
+        public String toQuery() {
+            return "\"match\": {";
+        }
+    },
 
     @SerializedName("!=")
-    INEQUALITY("!="),
+    INEQUALITY("!=") {
+        @Override
+        public String toQuery() {
+            return "\"must_not\": {";
+        }
+    },
 
     @SerializedName("!~")
     NOTCONTAINS("!~"),
@@ -36,4 +51,6 @@ public enum Relation {
     public String toString() {
         return this.value;
     }
+
+    public String toQuery() { return null; }
 }
