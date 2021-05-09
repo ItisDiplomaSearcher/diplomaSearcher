@@ -23,12 +23,12 @@ public class DiplomaController {
 		this.diplomaElasticsearchService = diplomaElasticsearchService;
 	}
 
-	@GetMapping("/diplomas")
+	@GetMapping("/diploma")
 	public List<Diploma> findAll(){
 		return diplomasService.findAll();
 	}
 
-	@PostMapping("/diplomas")
+	@PostMapping("/diploma")
 	public Diploma saveDiploma(@RequestBody Diploma diploma){
 		try {
 			diplomasService.saveDiploma(diploma);
@@ -39,7 +39,7 @@ public class DiplomaController {
 		}
 	}
 
-	@GetMapping("/diplomas/searchByDiplomaText/{query}")
+	@GetMapping("/diploma/searchByDiplomaText/{query}")
 	public List<Diploma> searchByDiplomaText(@PathVariable String query){
 		try {
 			return diplomaElasticsearchService.searchByDiplomaText(query);
@@ -54,4 +54,5 @@ public class DiplomaController {
 		// TODO
 		return null;
 	}
+
 }

@@ -10,7 +10,6 @@ import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -60,9 +59,9 @@ public class DiplomaElasticsearchServiceImpl implements DiplomaElasticsearchServ
 			String text = (String) sourceAsMap.get("text");
 			String author = (String) sourceAsMap.get("author");
 			String advisor = (String) sourceAsMap.get("advisor");
+			String filename = (String) sourceAsMap.get("filename");
 
-
-			Diploma diploma = new Diploma(id, title, graduationYear, level, text, author, advisor);
+			Diploma diploma = new Diploma(id, title, graduationYear, level, text, author, advisor, filename);
 			diplomas.add(diploma);
 		}
 

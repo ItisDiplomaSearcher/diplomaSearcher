@@ -14,14 +14,11 @@ import java.util.Optional;
 public class DiplomaServiceImpl implements DiplomasService {
 
 	private final DiplomaRepository diplomaRepository;
-	// private final DiplomaElasticSearchRepository diplomaElasticSearchRepository;
 
 
 	@Autowired
-	public DiplomaServiceImpl(DiplomaRepository diplomaRepository
-			/*, DiplomaElasticSearchRepository diplomaElasticSearchRepository*/){
+	public DiplomaServiceImpl(DiplomaRepository diplomaRepository){
 		this.diplomaRepository = diplomaRepository;
-		// this.diplomaElasticSearchRepository = diplomaElasticSearchRepository;
 	}
 
 
