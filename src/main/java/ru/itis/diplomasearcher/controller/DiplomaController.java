@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.web.bind.annotation.*;
 import ru.itis.diplomasearcher.model.Diploma;
+import ru.itis.diplomasearcher.parser.Operation;
 import ru.itis.diplomasearcher.service.DiplomaElasticsearchService;
 import ru.itis.diplomasearcher.service.DiplomasService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -25,7 +27,7 @@ public class DiplomaController {
 
 	@GetMapping("/diploma")
 	public List<Diploma> findAll(){
-		return diplomasService.findAll();
+		return null;
 	}
 
 	@PostMapping("/diploma")
@@ -50,9 +52,13 @@ public class DiplomaController {
 	}
 
 	@GetMapping("/diploma/search/")
-	public List<Diploma> search(/*@RequestBody Operation operation*/){
-		// TODO
-		return null;
+	public List<Diploma> search(@RequestBody Operation operation){
+		try {
+			return diplomaElasticsearchService.search(operation.getQuery());
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

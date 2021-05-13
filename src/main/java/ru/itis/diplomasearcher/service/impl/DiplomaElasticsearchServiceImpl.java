@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.itis.diplomasearcher.model.Diploma;
+import ru.itis.diplomasearcher.model.EducationForm;
 import ru.itis.diplomasearcher.model.EducationLevel;
 import ru.itis.diplomasearcher.service.DiplomaElasticsearchService;
 
@@ -54,14 +55,24 @@ public class DiplomaElasticsearchServiceImpl implements DiplomaElasticsearchServ
 			Map<String, Object> sourceAsMap = hit.getSourceAsMap();
 			Long id = new Long((Integer) sourceAsMap.get("id"));
 			String title = (String) sourceAsMap.get("title");
-			EducationLevel level = Enum.valueOf(EducationLevel.class, (String) sourceAsMap.get("level"));
+			Integer pagesCount = (Integer) sourceAsMap.get("pagesCount");
+
+			String contentsList = (String) sourceAsMap.get("contentsList");
+			String mainPart = (String) sourceAsMap.get("mainPart");
+			String literature = (String) sourceAsMap.get("literature");
 			Integer graduationYear = (Integer) sourceAsMap.get("graduationYear");
-			String text = (String) sourceAsMap.get("text");
+			EducationForm educationForm = Enum.valueOf(EducationForm.class, (String) sourceAsMap.get("educationForm"));
+			EducationLevel educationLevel = Enum.valueOf(EducationLevel.class, (String) sourceAsMap.get("educationLevel"));
+			String faculty = (String) sourceAsMap.get("faculty");
+			String direction = (String) sourceAsMap.get("direction");
+			String group = (String) sourceAsMap.get("group");
 			String author = (String) sourceAsMap.get("author");
 			String advisor = (String) sourceAsMap.get("advisor");
-			String filename = (String) sourceAsMap.get("filename");
 
-			Diploma diploma = new Diploma(id, title, graduationYear, level, text, author, advisor, filename);
+
+			String downloadLink = (String) sourceAsMap.get("downloadLink");
+
+			Diploma diploma = new Diploma(id, title, pagesCount, contentsList, mainPart, literature, graduationYear, educationLevel, educationForm, faculty, direction, group, author, advisor, downloadLink);
 			diplomas.add(diploma);
 		}
 
