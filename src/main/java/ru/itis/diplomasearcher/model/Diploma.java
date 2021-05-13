@@ -20,14 +20,36 @@ public class Diploma {
 	@Column(nullable = false)
 	private String title;
 
+	@Column
+	private Integer pagesCount;
+
+	@Lob
+	private String contentsList;
+
+	@Lob
+	private String mainPart;
+
+	@Lob
+	private String literature;
+
+
 	@Column(nullable = false)
 	private Integer graduationYear;
 
 	@Enumerated(value = EnumType.STRING)
-	private EducationLevel level;
+	private EducationLevel educationLevel;
 
-	@Column(nullable = false)
-	private String text;
+	@Enumerated(value = EnumType.STRING)
+	private EducationForm educationForm;
+
+	@Column
+	private String faculty;
+
+	@Lob
+	private String direction;
+
+	@Column
+	private String group;
 
 	@Column
 	private String author;
@@ -36,7 +58,7 @@ public class Diploma {
 	private String advisor;
 
 	@Column
-	private String filename;
+	private String downloadLink;
 
 	@Override
 	public String toString() {

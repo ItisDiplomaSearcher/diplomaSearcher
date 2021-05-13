@@ -34,11 +34,11 @@ public class FileStorageController {
 		this.diplomaElasticsearchService = diplomaElasticsearchService;
 	}
 
-	@GetMapping("/files/getByDiplomaId/{diplomaId}")
+	@GetMapping("/file/{diplomaId}")
 	public ResponseEntity<Resource> getFileByDiplomaId(@PathVariable("diplomaId") Long diplomaId){
 		Diploma diploma = diplomasService.findById(diplomaId).orElseThrow(ResourceNotFoundException::new);
 
-		String filename = diploma.getFilename();
+		String filename = null;// diploma.getFilename();
 
 		Resource file = fileStorageService.load(filename);
 		return ResponseEntity.ok()
@@ -47,7 +47,7 @@ public class FileStorageController {
 				.body(file);
 	}
 
-	@GetMapping("/files/get/{filename:.+}")
+	@GetMapping("/file/get/{filename:.+}")
 	public ResponseEntity<Resource> getFile(@PathVariable("filename")String filename){
 		Resource file = fileStorageService.load(filename);
 		return ResponseEntity.ok()
@@ -57,7 +57,7 @@ public class FileStorageController {
 	}
 
 
-	@PostMapping("/files/upload/{diplomaId}")
+	@PostMapping("/file/{diplomaId}")
 	public Diploma upload(
 			@PathVariable("diplomaId") Long diplomaId,
 			@RequestParam("file") MultipartFile file
@@ -66,7 +66,7 @@ public class FileStorageController {
 
 		String filename = fileStorageService.save(file);
 
-		diploma.setFilename(filename);
+		// diploma.setFilename(filename);
 
 		diplomasService.saveDiploma(diploma);
 		diplomaElasticsearchService.updateDiploma(diploma);
