@@ -1,10 +1,11 @@
 package ru.itis.diplomasearcher.controller;
 
+import org.elasticsearch.action.search.SearchRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.web.bind.annotation.*;
 import ru.itis.diplomasearcher.model.Diploma;
-import ru.itis.diplomasearcher.parser.Operation;
+import ru.itis.diplomasearcher.parser.GsonParser;
 import ru.itis.diplomasearcher.service.DiplomaElasticsearchService;
 import ru.itis.diplomasearcher.service.DiplomasService;
 
@@ -33,6 +34,8 @@ public class DiplomaController {
 	@PostMapping("/diploma")
 	public Diploma saveDiploma(@RequestBody Diploma diploma){
 		try {
+			String diplomaText = diploma.getContentsList() + " " + diploma.getMainPart() + " " + diploma.getLiterature();
+			diploma.setText(diplomaText);
 			diplomasService.saveDiploma(diploma);
 			return diplomaElasticsearchService.updateDiploma(diploma);
 		} catch (Exception e) {
@@ -52,9 +55,11 @@ public class DiplomaController {
 	}
 
 	@GetMapping("/diploma/search/")
-	public List<Diploma> search(@RequestBody Operation operation){
+	public List<Diploma> search(@RequestBody String json){
 		try {
-			return diplomaElasticsearchService.search(operation.getQuery());
+			GsonParser gsonParser = new GsonParser(json);
+			SearchRequest searchRequest = gsonParser.getFilterSet().getQuery();
+			return diplomaElasticsearchService.search(searchRequest);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;

@@ -32,24 +32,32 @@ public class Diploma {
 	@Lob
 	private String literature;
 
+	@Lob
+	private String text;
 
 	@Column(nullable = false)
 	private Integer graduationYear;
 
-	@Enumerated(value = EnumType.STRING)
-	private EducationLevel educationLevel;
+	@Column
+	private String educationLevel;
 
-	@Enumerated(value = EnumType.STRING)
-	private EducationForm educationForm;
+	@Column
+	private String educationForm;
 
 	@Column
 	private String faculty;
+
+	@Column
+	private String department;
+
+	@Column
+	private String profile;
 
 	@Lob
 	private String direction;
 
 	@Column
-	private String group;
+	private String groupp;
 
 	@Column
 	private String author;

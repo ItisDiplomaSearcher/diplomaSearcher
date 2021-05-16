@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.itis.diplomasearcher.model.Diploma;
-import ru.itis.diplomasearcher.model.EducationForm;
-import ru.itis.diplomasearcher.model.EducationLevel;
 import ru.itis.diplomasearcher.service.DiplomaElasticsearchService;
 
 import java.io.IOException;
@@ -60,19 +58,22 @@ public class DiplomaElasticsearchServiceImpl implements DiplomaElasticsearchServ
 			String contentsList = (String) sourceAsMap.get("contentsList");
 			String mainPart = (String) sourceAsMap.get("mainPart");
 			String literature = (String) sourceAsMap.get("literature");
+			String text = (String) sourceAsMap.get("text");
 			Integer graduationYear = (Integer) sourceAsMap.get("graduationYear");
-			EducationForm educationForm = Enum.valueOf(EducationForm.class, (String) sourceAsMap.get("educationForm"));
-			EducationLevel educationLevel = Enum.valueOf(EducationLevel.class, (String) sourceAsMap.get("educationLevel"));
+			String educationForm = (String) sourceAsMap.get("educationForm");
+			String educationLevel = (String) sourceAsMap.get("educationLevel");
 			String faculty = (String) sourceAsMap.get("faculty");
 			String direction = (String) sourceAsMap.get("direction");
-			String group = (String) sourceAsMap.get("group");
+			String group = (String) sourceAsMap.get("groupp");
 			String author = (String) sourceAsMap.get("author");
 			String advisor = (String) sourceAsMap.get("advisor");
 
+			String department = (String) sourceAsMap.get("department");
+			String profile = (String) sourceAsMap.get("profile");
 
 			String downloadLink = (String) sourceAsMap.get("downloadLink");
 
-			Diploma diploma = new Diploma(id, title, pagesCount, contentsList, mainPart, literature, graduationYear, educationLevel, educationForm, faculty, direction, group, author, advisor, downloadLink);
+			Diploma diploma = new Diploma(id, title, pagesCount, contentsList, mainPart, literature, text, graduationYear, educationLevel, educationForm, faculty,department, profile, direction, group, author, advisor, downloadLink);
 			diplomas.add(diploma);
 		}
 
