@@ -16,8 +16,6 @@ public class Filter extends FilterSet {
 
     @Override
     public BoolQueryBuilder getBoolQueryBuilder() {
-        BoolQueryBuilder boolQueryBuilder = relation.getBoolQueryBuilder(name.name(), value);
-
-        return boolQueryBuilder;
+        return relation.getBoolQueryBuilder(name.value(), value);
     }
 }

@@ -14,5 +14,9 @@ public enum Name {
     @SerializedName(value = "LEVEL", alternate = "level")
     LEVEL,
     @SerializedName(value = "TEXT", alternate = "text")
-    TEXT
+    TEXT;
+
+    public String value() {
+        return name().toLowerCase();
+    }
 }
