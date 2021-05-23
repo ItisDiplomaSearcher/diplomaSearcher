@@ -44,6 +44,11 @@ public class DiplomaController {
 		}
 	}
 
+	@GetMapping("/diploma/{id}")
+	public Diploma find(@PathVariable Long id){
+		return diplomasService.findById(id).orElse(null);
+	}
+
 	@GetMapping("/diploma/searchByDiplomaText/{query}")
 	public List<Diploma> searchByDiplomaText(@PathVariable String query){
 		try {
