@@ -2,7 +2,6 @@ package ru.itis.diplomasearcher.controller;
 
 import org.elasticsearch.action.search.SearchRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.web.bind.annotation.*;
 import ru.itis.diplomasearcher.model.Diploma;
 import ru.itis.diplomasearcher.parser.GsonParser;
@@ -20,7 +19,7 @@ public class DiplomaController {
 	private final DiplomaElasticsearchService diplomaElasticsearchService;
 
 	@Autowired
-	public DiplomaController(DiplomasService diplomasService, ElasticsearchOperations elasticsearchOperations,
+	public DiplomaController(DiplomasService diplomasService,
 							 DiplomaElasticsearchService diplomaElasticsearchService) {
 		this.diplomasService = diplomasService;
 		this.diplomaElasticsearchService = diplomaElasticsearchService;
@@ -34,10 +33,7 @@ public class DiplomaController {
 	@PostMapping("/diploma")
 	public Diploma saveDiploma(@RequestBody Diploma diploma){
 		try {
-			String diplomaText = diploma.getContentsList() + " " + diploma.getMainPart() + " " + diploma.getLiterature();
-			diploma.setText(diplomaText);
-			diplomasService.saveDiploma(diploma);
-			return diplomaElasticsearchService.updateDiploma(diploma);
+			return diplomasService.saveDiploma(diploma);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
