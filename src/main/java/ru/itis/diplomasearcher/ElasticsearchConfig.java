@@ -22,13 +22,19 @@ public class ElasticsearchConfig {
 	@Value("${elasticsearch.port}")
 	private int EsPort;
 
+	@Value("${elasticsearch.username}")
+	private String esUsername;
+
+	@Value("${elasticsearch.password}")
+    private String esPassword;
+
 	@Bean
 	public RestHighLevelClient client() {
-		ClientConfiguration clientConfiguration
-				= ClientConfiguration.builder()
+		ClientConfiguration clientConfiguration = ClientConfiguration.builder()
 				.connectedTo(EsHost + ":" + EsPort)
+				.usingSsl()
+				.withBasicAuth(esUsername, esPassword)
 				.build();
-
 		return RestClients.create(clientConfiguration).rest();
 	}
 
